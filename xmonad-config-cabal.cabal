@@ -74,9 +74,9 @@ executable xmonad-config-cabal
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base ^>=4.13.0.0,
-        xmonad ^>= 0.17.1,
-        xmonad-contrib ^>= 0.17.1,
+        base >=4.13.0.0,
+        xmonad >= 0.17.1,
+        xmonad-contrib >= 0.17.1,
         time,
         X11,
         containers,
