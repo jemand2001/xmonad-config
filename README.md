@@ -27,5 +27,5 @@ Once that's done, simply run `./build`. Alternatively: configure xmonad as your 
 - `flameshot`: the best screenshot app
 - `rofi`: a popup to switch between windows and run things
 - `xsecurelock`: a screen locker
-- the [`liskin-media`](`https://github.com/liskin/dotfiles/blob/15c2cd83ce7297c38830053a9fd2be2f3678f4b0/bin/liskin-media`) shell script somewhere in the PATH, if you want somewhat proper media key support (see also [the original blog post](https://work.lisk.in/2020/05/06/linux-media-control.html))
+- the [`liskin-media`](https://github.com/liskin/dotfiles/blob/15c2cd83ce7297c38830053a9fd2be2f3678f4b0/bin/liskin-media) shell script somewhere in the PATH, if you want somewhat proper media key support (see also [the original blog post](https://work.lisk.in/2020/05/06/linux-media-control.html))
 
