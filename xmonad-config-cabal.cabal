@@ -35,7 +35,7 @@ license:            MIT
 author:             jemand2001
 
 -- An email address to which users can send suggestions, bug reports, and patches.
-maintainer:         jmand@gmx.de
+maintainer:
 
 -- A copyright notice.
 -- copyright:
