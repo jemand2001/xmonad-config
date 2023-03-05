@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+
+for name in xmonad xmonad-$(uname -m)-linux ; do
+    ln -sT ../.cabal/bin/xmonad-config-cabal $name
+done
