@@ -56,14 +56,10 @@ import XMonad.Hooks.MyManageHelpers
 import qualified DBus.Client as C
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 
+import qualified Conf
+
 modKey :: KeyMask
-modKey = mod4Mask
-
-backgroundImage :: String
-backgroundImage = "~/Pictures/red-space.jpg"
-
-theTerminal :: String
-theTerminal = "terminator"
+modKey = Conf.modKey
 
 myWorkspaces :: [String]
 myWorkspaces = ["Chrome", "Discord", "3", "Steam"] ++ map show [5 .. 9]
@@ -85,7 +81,7 @@ main = do
       def
         { layoutHook = myLayout
         , modMask = modKey -- Rebind Mod to the Windows key
-        , terminal = theTerminal
+        , terminal = Conf.terminal
         , borderWidth = 1
         , normalBorderColor = "#449944"
         , focusedBorderColor = "#994444"
@@ -100,7 +96,7 @@ main = do
           ((0,                    xK_Print  ), spawn "flameshot gui")
         , ((shiftMask,            xK_Print  ), spawn "flameshot full -c")
 
-        , ((modKey,               xK_Return ), spawn theTerminal)
+        , ((modKey,               xK_Return ), spawn Conf.terminal)
         , ((modKey,               xK_r      ), spawn "rofi -show drun")
         , ((modKey .|. shiftMask, xK_r      ), spawn "rofi -show run")
 
@@ -121,15 +117,11 @@ main = do
 
         , ((modKey .|. controlMask, xK_t    ), toggleSystray)
 
-        , ((modKey,               xK_l      ), spawn "xsecurelock")
-
         , ((modKey,               xK_j      ), withMinimized $ windows . focusDownIgnoring)
         , ((modKey,               xK_k      ), withMinimized $ windows . focusUpIgnoring)
 
         , ((modKey,               xK_i      ), windows copyToAll)   -- "mark sticky"
         , ((modKey .|. shiftMask, xK_i      ), killAllOtherCopies)  -- "unmark sticky"
-
-        , ((modKey,               xK_z      ), spawn "~/programme/bin/boomer")  -- desktop zoom app, https://github.com/tsoding/boomer
 
         , ((modKey .|. shiftMask, xK_n      ), withFocused $ void <$> (getName >=> \n -> notifySendIcon "window title" (show n) [] Nothing))
 
@@ -156,6 +148,13 @@ main = do
       , ((modKey .|. shiftMask,   button4), const prevWS)
       , ((modKey .|. shiftMask,   button5), const nextWS)
       ]
+      `additionalKeys` [
+        (k, spawn $ fromJust program)
+        | (k, program) <- [
+          ((modKey, xK_z), Conf.boomerInstall)
+        , ((modKey, xK_l), Conf.screenLock)
+        ], isJust program
+      ]
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [
@@ -174,8 +173,8 @@ startupHook = do
   trace "START"
   setDefaultCursor xC_arrow
   XS.put . DBusConnection =<< io C.connectSession
-  spawn $ "xloadimage -onroot -fullscreen " ++ backgroundImage
-  spawn "~/programme/bin/autorun.sh"
+  spawn $ "xloadimage -onroot -fullscreen " ++ Conf.backgroundImage
+  runAutorun
   setWMName "LG3D"
   void $ notifySend "XMonad" "startup finished" []
 
@@ -235,12 +234,12 @@ toggleFloat w =
     )
 
 runAutorun :: X ()
-runAutorun = spawn "~/programme/bin/autorun.sh"
+runAutorun = spawn Conf.autorun
 
 
 myXPConfig :: XPConfig
 myXPConfig = def {
-    font = "xft:Liberation Sans:pixelsize=12"
+    font = Conf.xPromptFont
   , autoComplete = Just 1000
   }
 
