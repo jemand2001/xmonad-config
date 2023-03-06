@@ -20,12 +20,8 @@ Once that's done, simply run `./build`. Alternatively: configure xmonad as your 
 ### Runtime Requirements
 
 - a desktop notification service (also DBus)
-- an executable file at `~/programme/bin/autorun.sh`. I should probably make this path configurable at some point, as it has become somewhat of a problem as I put this on more machines.
-- `terminator`: the terminal emulator I use
-- an image at `~/Pictures/red-space.jpg`: the background image (I should honestly put this in the autorun)
-- [`boomer`](https://github.com/tsoding/boomer): a desktop zoom app
 - `flameshot`: the best screenshot app
 - `rofi`: a popup to switch between windows and run things
-- `xsecurelock`: a screen locker
 - the [`liskin-media`](https://github.com/liskin/dotfiles/blob/15c2cd83ce7297c38830053a9fd2be2f3678f4b0/bin/liskin-media) shell script somewhere in the PATH, if you want somewhat proper media key support (see also [the original blog post](https://work.lisk.in/2020/05/06/linux-media-control.html))
 
+You should also take a look at `Conf.hs`: this file contains some details, such as the terminal emulator, background image, the path to an autorun script, and some others.
