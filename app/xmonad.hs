@@ -237,8 +237,6 @@ toggleFloat w =
 runAutorun :: X ()
 runAutorun = spawn "~/programme/bin/autorun.sh"
 
-toggleCompton :: X ()
-toggleCompton = spawn "pgrep picom && killall picom || picom >> ~/.autorun.log"
 
 myXPConfig :: XPConfig
 myXPConfig = def {
