@@ -64,7 +64,6 @@ executable xmonad-config-cabal
         XMonad.Actions.MyNotify,
         XMonad.Actions.StatefulNotify,
         XMonad.Hooks.MyManageHelpers,
-        XMonad.Prompt.MyWindow,
         XMonad.Util.Ignore,
         XMonad.Util.Maybe,
         Conf,
