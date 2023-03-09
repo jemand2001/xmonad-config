@@ -32,8 +32,6 @@ import XMonad.Layout.BoringWindows
 import XMonad.Actions.FloatSnap
 import XMonad.Actions.WithAll
 
-import XMonad.Prompt.Window
-import XMonad.Prompt.MyWindow
 import XMonad.Prompt
 
 import XMonad.Util.Ignore
@@ -242,19 +240,6 @@ myXPConfig = def {
     font = Conf.xPromptFont
   , autoComplete = Just 1000
   }
-
-goToWindow :: X ()
-goToWindow = do
-  Just window <- getWindowPrompt myXPConfig wsWindows
-  maximizeWindow window
-  windows $ W.focusWindow window
-
-findWindow :: X ()
-findWindow = do
-  Just window <- getWindowPrompt myXPConfig allWindows
-  maximizeWindow window
-  windows $ \ws -> fromMaybe ws (goToWorkspaceOf window ws)
-  windows $ W.focusWindow window
 
 getTimeString :: String -> X String
 getTimeString fmt = io $ formatTime defaultTimeLocale fmt <$> (utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime)
