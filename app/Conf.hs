@@ -32,3 +32,7 @@ terminal = "terminator"
 -- |the font to be used in xmonad's prompt system
 xPromptFont :: String
 xPromptFont = "xft:Liberation Sans:pixelsize=12"
+
+-- |the file automatically run programs will log into
+autorunLog :: Maybe String
+autorunLog = Just "~/.autorun.log"

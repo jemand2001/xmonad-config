@@ -289,7 +289,7 @@ notifyOutput s = do
 
 toggleSystray :: X ()
 toggleSystray = do
-  spawn "pgrep stalonetray && killall stalonetray || stalonetray >> ~/.autorun.log"
+  spawn $ "pgrep stalonetray && killall stalonetray || stalonetray >> " ++ fromMaybe "/dev/null" Conf.autorunLog
 
 unhideLogHook :: X ()
 unhideLogHook = do
