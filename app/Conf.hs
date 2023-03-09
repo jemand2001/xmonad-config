@@ -36,3 +36,7 @@ xPromptFont = "xft:Liberation Sans:pixelsize=12"
 -- |the file automatically run programs will log into
 autorunLog :: Maybe String
 autorunLog = Just "~/.autorun.log"
+
+-- |your system tray executable
+systemTray :: Maybe String
+systemTray = Just "stalonetray"
