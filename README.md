@@ -11,11 +11,15 @@ Firtly, clone this repository into `~/.xmonad` or `~/.config/xmonad`.
 
 *In theory*, cabal should take care of all other dependencies. If it does not, feel free to [open an issue](https://github.com/jemand2001/xmonad-config/issues/new/choose).
 
+### Setup
+
+If your architecture is `x86-64`, you don't need to do anything in this step.
+If it is not, run `ln -sfT xmonad-config-cabal xmonad-$(uname -m)-linux`.
+Don't worry that the target of that symlink doesn't exist yet, that will be fixed in the next step.
+
 ### Building
 
-First, you should run `./setup`. This adds symbolic links to the place where cabal will put the final executable.
-
-Once that's done, simply run `./build`. Alternatively: configure xmonad as your desktop session, and log in. Xmonad *should* find the build script here and compile this configuration automatically.
+Simply run `./build`. Alternatively: configure xmonad as your desktop session, and log in. Xmonad *should* find the build script here and compile this configuration automatically.
 
 ### Runtime Requirements
 
