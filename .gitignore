@@ -1,4 +1,3 @@
 dist-newstyle
 xmonad.errors
-xmonad
-xmonad-*-linux
+xmonad-config-cabal
