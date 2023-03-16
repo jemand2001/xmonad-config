@@ -5,14 +5,23 @@ import qualified DBus.Notify as N
 import qualified XMonad.Util.ExtensibleState as XS
 import XMonad.Actions.MyNotify
 
-replaceStateNotification :: ExtensionClass a => String -> X (Maybe N.Notification) -> X String -> (N.Notification -> a) -> X ()
-replaceStateNotification title old text f = do
-  oldN <- old
+import qualified Data.Map as M
+
+newtype StateNotifications = StateNotifications (M.Map String N.Notification) deriving (Typeable)
+
+instance ExtensionClass StateNotifications where
+  initialValue = StateNotifications M.empty
+
+replaceStateNotification :: String -> String -> X String -> X ()
+replaceStateNotification key title text = do
   text' <- text
+  StateNotifications notes <- XS.get
 
-  let notify = maybe send replace oldN
+  let old = M.lookup key notes
 
-  XS.put . f =<< notify text'
+  let notify = maybe send replace old
+  new <- notify text'
+  XS.put $ StateNotifications $ M.insert key new notes
   where
-      replace n str = replaceNotificationIcon n title str [] Nothing
-      send str = notifySendIcon title str [] Nothing
+    replace n str = replaceNotificationIcon n title str [] Nothing
+    send str = notifySendIcon title str [] Nothing

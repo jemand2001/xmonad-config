@@ -247,30 +247,12 @@ getTimeString fmt = io $ formatTime defaultTimeLocale fmt <$> (utcToLocalTime <$
 goToWorkspaceOf :: Window -> WindowSet -> Maybe WindowSet
 goToWorkspaceOf window ws = flip W.view ws <$> W.findTag window ws
 
-
-newtype TimeNotification = TimeNotification (Maybe N.Notification) deriving (Typeable)
-
-instance ExtensionClass TimeNotification where
-  initialValue = TimeNotification Nothing
-
 notifyTime :: X ()
-notifyTime = replaceStateNotification "Time" getN (getTimeString "%a %d.%m.%Y: %T") (TimeNotification . Just)
-  where
-    getN = do
-      TimeNotification oldN <- XS.get
-      return oldN
-
-newtype WSNotification = WSNotification (Maybe N.Notification) deriving (Typeable)
-
-instance ExtensionClass WSNotification where
-  initialValue = WSNotification Nothing
+notifyTime = replaceStateNotification "time" "Time" (getTimeString "%a %d.%m.%Y: %T")
 
 notifyWS :: X ()
-notifyWS = replaceStateNotification "Workspace" getN getTag (WSNotification . Just)
+notifyWS = replaceStateNotification "workspace" "Workspace" getTag
   where
-    getN = do
-      WSNotification oldN <- XS.get
-      return oldN
     getTag = withWindowSet $ return . W.currentTag
 
 nextWS :: X ()
