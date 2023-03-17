@@ -20,7 +20,7 @@ getNotification key = do
 setNotification :: String -> Maybe N.Notification -> X ()
 setNotification key new = do
   StateNotifications notes <- XS.get
-  let notes' = M.update (const new) key notes
+  let notes' = M.alter (const new) key notes
   XS.put $ StateNotifications notes'
 
 replaceStateNotification :: String -> String -> X String -> X ()
