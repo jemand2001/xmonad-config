@@ -23,7 +23,7 @@ boomerInstall = Just "~/programme/bin/boomer"
 
 -- |your preferred screen locker
 screenLock :: Maybe String
-screenLock = Just "xsecurelock"
+screenLock = Just "XSECURELOCK_PASSWORD_PROMPT=time xsecurelock"
 
 -- |your preferred terminal
 terminal :: String
