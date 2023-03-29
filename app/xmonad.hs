@@ -178,10 +178,7 @@ startupHook = do
 
 restartXMonad :: X ()
 restartXMonad = do
-  conn <- XS.get
-  case conn of
-    DBusConnection c -> io $ C.disconnect c
-    _ -> return ()
+  ensureDisconnected
   spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
 
 data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)

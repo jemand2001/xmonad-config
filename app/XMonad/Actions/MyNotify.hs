@@ -11,6 +11,7 @@ module XMonad.Actions.MyNotify
   , replaceNotification
   , replaceNotificationIcon
   , notifySendHints
+  , ensureDisconnected
   , DBusConnection (DBusConnection)
   -- , TimeNotification (..)
   ) where
@@ -38,6 +39,14 @@ ensureConnected = do
   conn <- XS.get
   when (disconnected conn) $ void . XS.put . DBusConnection =<< io C.connectSession
   XS.get
+
+ensureDisconnected :: X ()
+ensureDisconnected = do
+  conn <- XS.get
+  case conn of
+    DBusConnection c -> io $ C.disconnect c
+    NotConnected -> return ()
+  XS.put NotConnected
 
 notifySendN :: N.Note -> X N.Notification
 notifySendN note = do
