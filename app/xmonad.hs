@@ -45,13 +45,11 @@ import qualified XMonad.Actions.MyFlexibleResize as Flex
 import XMonad.Actions.CopyWindow
 
 import XMonad.Actions.StatefulNotify
+import XMonad.Actions.DBus
 
 import qualified Data.Map as M
 
-import XMonad.Util.Maybe
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.MyManageHelpers
-import qualified DBus.Client as C
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 
 import qualified Conf
@@ -170,7 +168,7 @@ startupHook :: X ()
 startupHook = do
   trace "START"
   setDefaultCursor xC_arrow
-  XS.put . DBusConnection =<< io C.connectSession
+  void ensureConnected
   spawn $ "xloadimage -onroot -fullscreen " ++ Conf.backgroundImage
   runAutorun
   setWMName "LG3D"
@@ -179,7 +177,7 @@ startupHook = do
 restartXMonad :: X ()
 restartXMonad = do
   ensureDisconnected
-  spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
+  spawn Conf.restartCommand
 
 data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
 

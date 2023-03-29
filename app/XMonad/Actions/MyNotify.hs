@@ -11,42 +11,18 @@ module XMonad.Actions.MyNotify
   , replaceNotification
   , replaceNotificationIcon
   , notifySendHints
-  , ensureDisconnected
   , DBusConnection (DBusConnection)
   -- , TimeNotification (..)
   ) where
 
 import qualified XMonad.Util.ExtensibleState as XS
 import qualified DBus.Notify as N
-import qualified DBus.Client as C
-import Control.Monad
 
 import XMonad
 
+import XMonad.Actions.DBus
+
 type Actions = [(N.Action, String)]
-
-data DBusConnection = DBusConnection N.Client | NotConnected
-
-instance ExtensionClass DBusConnection where
-  initialValue = NotConnected
-
-disconnected :: DBusConnection -> Bool
-disconnected NotConnected = True
-disconnected _ = False
-
-ensureConnected :: X DBusConnection
-ensureConnected = do
-  conn <- XS.get
-  when (disconnected conn) $ void . XS.put . DBusConnection =<< io C.connectSession
-  XS.get
-
-ensureDisconnected :: X ()
-ensureDisconnected = do
-  conn <- XS.get
-  case conn of
-    DBusConnection c -> io $ C.disconnect c
-    NotConnected -> return ()
-  XS.put NotConnected
 
 notifySendN :: N.Note -> X N.Notification
 notifySendN note = do

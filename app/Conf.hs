@@ -40,3 +40,7 @@ autorunLog = Just "~/.autorun.log"
 -- |your system tray executable
 systemTray :: Maybe String
 systemTray = Just "stalonetray"
+
+-- |the command to restart xmonad
+restartCommand :: String
+restartCommand = "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
