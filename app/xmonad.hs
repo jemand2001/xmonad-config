@@ -1,3 +1,4 @@
+{-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-type-defaults #-}
 module Main where
 
@@ -9,6 +10,7 @@ import Data.Time.Clock
 import Data.Time.Format
 import Data.Time.LocalTime
 import Control.Monad
+import Data.Functor
 
 import Graphics.X11.Types
 import Graphics.X11.ExtraTypes
@@ -144,13 +146,15 @@ main = do
       , ((modKey .|. shiftMask,   button4), const prevWS)
       , ((modKey .|. shiftMask,   button5), const nextWS)
       ]
-      `additionalKeys` [
-        (k, spawn $ fromJust program)
-        | (k, program) <- [
-          ((modKey, xK_z), Conf.boomerInstall)
-        , ((modKey, xK_l), Conf.screenLock)
-        ], isJust program
-      ]
+      `additionalKeys` map (\(a, b, program) -> ((a, b), spawn program)) (catMaybes [
+          (modKey, xK_z,) <$> Conf.boomerInstall
+        , (modKey, xK_l,) <$> Conf.screenLock
+        , (0, xF86XK_AudioPlay, ) <$> (Conf.mediaController <&> (++ " play"))
+        , (0, xF86XK_AudioPause,) <$> (Conf.mediaController <&> (++ " play"))
+        , (0, xF86XK_AudioStop, ) <$> (Conf.mediaController <&> (++ " stop"))
+        , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
+        , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
+        ])
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [
