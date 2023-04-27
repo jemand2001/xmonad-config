@@ -48,6 +48,7 @@ import XMonad.Actions.CopyWindow
 
 import XMonad.Actions.StatefulNotify
 import XMonad.Actions.DBus
+import XMonad.Layout.NoBorders
 
 import qualified Data.Map as M
 
@@ -86,7 +87,7 @@ main = do
         , focusedBorderColor = "#994444"
         , workspaces = myWorkspaces
         , XMonad.startupHook = Main.startupHook
-        , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt]
+        , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt, removeBorders]
         , logHook = unhideLogHook <+> logHook def
         , clickJustFocuses = False
         }
@@ -207,6 +208,12 @@ floatIt = composeAll [
   , wmName =? "Picross Touch Configuration"                               --> doFloat
   , className =? "flameshot"                                              --> doFloat
   , isDialog --> doFloat
+  ]
+
+removeBorders :: ManageHook
+removeBorders = composeAll [
+    className =? "google-chrome"  --> hasBorder False
+  , className =? "Firefox"        --> hasBorder False
   ]
 
 sinkIt :: ManageHook
