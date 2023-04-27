@@ -55,6 +55,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 
 import qualified Conf
+import XMonad.Hooks.MyManageHelpers
 
 modKey :: KeyMask
 modKey = Conf.modKey
@@ -201,21 +202,21 @@ switchToWS = composeAll [
 
 floatIt :: ManageHook
 floatIt = composeAll [
-    className =? "Gimp" <&&> stringProperty "WM_NAME" /=? "GNU Image Manipulation Program"  --> doFloat
-  , stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog"                               --> doFloat
-  , stringProperty "WM_NAME" =? "Picross Touch Configuration"                               --> doFloat
-  , className =? "flameshot"                                                                --> doFloat
+    className =? "Gimp" <&&> wmName /=? "GNU Image Manipulation Program"  --> doFloat
+  , stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog"             --> doFloat
+  , wmName =? "Picross Touch Configuration"                               --> doFloat
+  , className =? "flameshot"                                              --> doFloat
   , isDialog --> doFloat
   ]
 
 sinkIt :: ManageHook
 sinkIt = composeAll [
-    stringProperty "WM_NAME" =? "SHENZHEN I/O" --> doSink
+    wmName =? "SHENZHEN I/O"  --> doSink
   ]
 
 closeSteamFriends :: ManageHook
 closeSteamFriends = composeAll [
-    stringProperty "WM_NAME" =? "Friends List" <&&> className =? "Steam" --> doIgnore
+    wmName =? "Friends List" <&&> className =? "Steam"  --> doIgnore
   ]
 
 minimizeInHook :: ManageHook

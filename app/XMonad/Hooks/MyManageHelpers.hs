@@ -11,3 +11,6 @@ propertyContains ::
 propertyContains prop val = do
   v <- stringProperty prop
   return $ val `isInfixOf` v
+
+wmName :: Query String
+wmName = stringProperty "WM_NAME"
