@@ -196,9 +196,9 @@ instance UrgencyHook LibNotifyUrgencyHook where
 
 switchToWS :: ManageHook
 switchToWS = composeAll [
-    className =? "google-chrome" --> doShift "Chrome"
+    className =? "Google-chrome" --> doShift "Chrome"
   , className =? "discord"       --> doShift "Discord"
-  , className =? "Steam"         --> doShift "Steam"
+  , className =? "steam"         --> doShift "Steam"
   ]
 
 floatIt :: ManageHook
@@ -212,7 +212,7 @@ floatIt = composeAll [
 
 removeBorders :: ManageHook
 removeBorders = composeAll [
-    className =? "google-chrome"  --> hasBorder False
+    className =? "Google-chrome"  --> hasBorder False
   , className =? "Firefox"        --> hasBorder False
   ]
 
