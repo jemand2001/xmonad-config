@@ -19,7 +19,7 @@ autorun = "~/programme/bin/autorun.sh"
 -- 
 -- see also https://github.com/tsoding/boomer
 boomerInstall :: Maybe String
-boomerInstall = Just "~/programme/bin/boomer"
+boomerInstall = Just "/usr/bin/boomer"
 
 -- |your preferred screen locker
 screenLock :: Maybe String

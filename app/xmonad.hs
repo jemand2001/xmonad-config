@@ -128,14 +128,6 @@ main = do
         , ((modKey,               xK_u      ), withFocused maximizeWindowAndFocus)  -- "unminimize" the focused window; useful when you have a notification from a minimized window
 
         , ((modKey,               xK_q      ), restartXMonad)
-
-
-        -- bluetooth media controls, see https://work.lisk.in/2020/05/06/linux-media-control.html
-        , ((0,             xF86XK_AudioPlay ), spawn "liskin-media play")
-        , ((0,             xF86XK_AudioPause), spawn "liskin-media play")
-        , ((0,             xF86XK_AudioStop ), spawn "liskin-media stop")
-        , ((0,             xF86XK_AudioNext ), spawn "liskin-media next")
-        , ((0,             xF86XK_AudioPrev ), spawn "liskin-media prev")
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)
