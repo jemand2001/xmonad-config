@@ -62,7 +62,7 @@ modKey :: KeyMask
 modKey = Conf.modKey
 
 myWorkspaces :: [String]
-myWorkspaces = ["Chrome", "Discord", "3", "Steam"] ++ map show [5 .. 9]
+myWorkspaces = ["Browser", "Discord", "3", "Steam"] ++ map show [5 .. 9]
 
 myLayout = boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
   where
@@ -188,9 +188,9 @@ instance UrgencyHook LibNotifyUrgencyHook where
 
 switchToWS :: ManageHook
 switchToWS = composeAll [
-    className =? "Google-chrome" --> doShift "Chrome"
-  , className =? "discord"       --> doShift "Discord"
-  , className =? "steam"         --> doShift "Steam"
+    className =? "firefox"  --> doShift "Browser"
+  , className =? "discord"  --> doShift "Discord"
+  , className =? "steam"    --> doShift "Steam"
   ]
 
 floatIt :: ManageHook
@@ -205,7 +205,7 @@ floatIt = composeAll [
 removeBorders :: ManageHook
 removeBorders = composeAll [
     className =? "Google-chrome"  --> hasBorder False
-  , className =? "Firefox"        --> hasBorder False
+  , className =? "firefox"        --> hasBorder False
   ]
 
 sinkIt :: ManageHook
