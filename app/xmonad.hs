@@ -57,6 +57,7 @@ import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 
 import qualified Conf
 import XMonad.Hooks.MyManageHelpers
+import XMonad.Layout.LayoutHints
 
 modKey :: KeyMask
 modKey = Conf.modKey
@@ -64,7 +65,7 @@ modKey = Conf.modKey
 myWorkspaces :: [String]
 myWorkspaces = ["Browser", "Discord", "3", "Steam"] ++ map show [5 .. 9]
 
-myLayout = boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
+myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
   where
     tiled = Tall nmaster delta ratio
     -- see XMonad.Config.layout
@@ -199,7 +200,8 @@ floatIt = composeAll [
   , stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog"             --> doFloat
   , wmName =? "Picross Touch Configuration"                               --> doFloat
   , className =? "flameshot"                                              --> doFloat
-  , isDialog --> doFloat
+  , isDialog                                                              --> doFloat
+  , willFloat                                                             --> doFloat
   ]
 
 removeBorders :: ManageHook
