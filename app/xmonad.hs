@@ -124,7 +124,7 @@ main = do
         , ((modKey,               xK_i      ), windows copyToAll)   -- "mark sticky"
         , ((modKey .|. shiftMask, xK_i      ), killAllOtherCopies)  -- "unmark sticky"
 
-        , ((modKey .|. shiftMask, xK_n      ), withFocused $ void <$> (getName >=> \n -> notifySendIcon "window title" (show n) [] Nothing))
+        , ((modKey .|. shiftMask, xK_n      ), notifyWindowName)
 
         , ((modKey,               xK_u      ), withFocused maximizeWindowAndFocus)  -- "unminimize" the focused window; useful when you have a notification from a minimized window
 
@@ -255,6 +255,9 @@ notifyWS :: X ()
 notifyWS = replaceStateNotification "workspace" "Workspace" getTag
   where
     getTag = withWindowSet $ return . W.currentTag
+
+notifyWindowName :: X ()
+notifyWindowName = withFocused $ getName >=> (replaceStateNotification "windowTitle" "Window Title" . pure . show)
 
 nextWS :: X ()
 nextWS = Cycle.nextWS >> notifyWS
