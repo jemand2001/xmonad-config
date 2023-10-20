@@ -1,3 +1,4 @@
 dist-newstyle
 xmonad.errors
 xmonad-config-cabal
+.vscode
