@@ -58,6 +58,7 @@ import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 import qualified Conf
 import XMonad.Hooks.MyManageHelpers
 import XMonad.Layout.LayoutHints
+import XMonad.Actions.PulseAudio
 
 modKey :: KeyMask
 modKey = Conf.modKey
@@ -129,6 +130,9 @@ main = do
         , ((modKey,               xK_u      ), withFocused maximizeWindowAndFocus)  -- "unminimize" the focused window; useful when you have a notification from a minimized window
 
         , ((modKey,               xK_q      ), restartXMonad)
+
+        , ((modKey,               xK_F2     ), void (lowerVolume 3))
+        , ((modKey,               xK_F3     ), void (raiseVolume 3))
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)

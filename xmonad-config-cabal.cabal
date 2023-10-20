@@ -68,13 +68,14 @@ executable xmonad-config-cabal
         XMonad.Util.Maybe,
         Conf,
         XMonad.Actions.DBus,
+        XMonad.Actions.PulseAudio,
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base >=4.13.0.0,
+        base >=4.15.0.0,
         xmonad >= 0.17.1,
         xmonad-contrib >= 0.17.1,
         time,
@@ -82,7 +83,8 @@ executable xmonad-config-cabal
         containers,
         dbus,
         text,
-        fdo-notify
+        fdo-notify,
+        split,
 
     -- Directories containing source files.
     hs-source-dirs:   app
