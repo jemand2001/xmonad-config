@@ -1,6 +1,7 @@
 {-# LANGUAGE LambdaCase, TupleSections #-}
 
 {-# OPTIONS_GHC -Wno-name-shadowing -Wno-unused-binds -Wno-incomplete-uni-patterns #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module XMonad.Actions.PulseAudio where
 
@@ -14,6 +15,15 @@ import XMonad.Core
 import Data.List
 
 data SinkState = Suspended | Running
+
+class IsId a where
+  getId :: a -> String
+
+instance IsId String where
+  getId = id
+
+instance IsId Int where
+  getId = show
 
 data Sink = Sink
   { index :: Int,
@@ -72,14 +82,13 @@ getDefaultSink = do
   -- bracket (spawnPipe "pactl get-default-sink") hClose hGetContents'
   strip <$> runProcessWithInput "pactl" ["get-default-sink"] ""
 
-getVolume :: Either Int String -> IO Double
-getVolume (Left idx) = getVolume $ Right $ show idx
-getVolume (Right n) = do
+getVolume :: IsId a => a -> IO Double
+getVolume n = do
   trace "started getVolume"
   -- bracket (spawnPipe $ unwords ["pactl", "get-sink-volume", n]) hClose $ \output -> do
     -- vol <- readVolume <$> hGetContents' output
     -- return $ snd <$> vol
-  output <- runProcessWithInput "pactl" ["get-sink-volume", n] ""
+  output <- runProcessWithInput "pactl" ["get-sink-volume", getId n] ""
   let dropped = drop 8 output
   let stripped = strip dropped
   let channels = splitOn "," stripped
@@ -88,20 +97,19 @@ getVolume (Right n) = do
   return $ head $ catMaybes theOne ++ [0]
   -- (snd <$>) <$> readVolume <$> strip <$> drop 8 <$> 
 
-setVolume :: Either Int String -> Double -> IO ()
-setVolume (Left idx) x = setVolume (Right $ show idx) x
-setVolume (Right sink) x = do
+setVolume :: IsId a => a -> Double -> IO ()
+setVolume sink x = do
   trace "started setVolume"
-  spawn $ unwords ["pactl", "set-sink-volume", sink, show x ++ "%"]
+  spawn $ unwords ["pactl", "set-sink-volume", getId sink, show x ++ "%"]
 
 raiseVolume, lowerVolume :: MonadIO m => Double -> m [Double]
 raiseVolume delta = liftIO $ do
   trace $ "started raiseVolume " ++ show delta
   sinkName <- getDefaultSink
-  vol <- getVolume $ Right sinkName
+  vol <- getVolume sinkName
   -- vol <- maybe (fail "vol' was Nothing") return vol'
   let newVol = delta + vol
-  setVolume (Right sinkName) newVol
+  setVolume sinkName newVol
   return [newVol]
 lowerVolume = raiseVolume . negate
 
