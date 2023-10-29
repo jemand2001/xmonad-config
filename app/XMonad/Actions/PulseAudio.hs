@@ -37,7 +37,6 @@ data Sink = Sink
 
 getSinks :: IO [Sink]
 getSinks = do
-  -- bracket (spawnPipe "pactl list sinks") hClose $ fmap (mapMaybe readSink . splitOn "Sink") . hGetContents'
   mapMaybe readSink . splitOn "Sink" <$> runProcessWithInput "pactl" ["list", "sinks"] ""
 
 readSink :: String -> Maybe Sink
@@ -79,15 +78,11 @@ stripBack = reverse . stripFront . reverse
 getDefaultSink :: IO String
 getDefaultSink = do
   trace "started getDefaultSink"
-  -- bracket (spawnPipe "pactl get-default-sink") hClose hGetContents'
   strip <$> runProcessWithInput "pactl" ["get-default-sink"] ""
 
 getVolume :: IsId a => a -> IO Double
 getVolume n = do
   trace "started getVolume"
-  -- bracket (spawnPipe $ unwords ["pactl", "get-sink-volume", n]) hClose $ \output -> do
-    -- vol <- readVolume <$> hGetContents' output
-    -- return $ snd <$> vol
   output <- runProcessWithInput "pactl" ["get-sink-volume", getId n] ""
   let dropped = drop 8 output
   let stripped = strip dropped
@@ -95,7 +90,6 @@ getVolume n = do
   let volumes = map readVolume channels
   let theOne = map (snd <$>) volumes
   return $ head $ catMaybes theOne ++ [0]
-  -- (snd <$>) <$> readVolume <$> strip <$> drop 8 <$> 
 
 setVolume :: IsId a => a -> Double -> IO ()
 setVolume sink x = do
@@ -107,7 +101,6 @@ raiseVolume delta = liftIO $ do
   trace $ "started raiseVolume " ++ show delta
   sinkName <- getDefaultSink
   vol <- getVolume sinkName
-  -- vol <- maybe (fail "vol' was Nothing") return vol'
   let newVol = delta + vol
   setVolume sinkName newVol
   return [newVol]
