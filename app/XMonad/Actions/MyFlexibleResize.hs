@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-uni-patterns -Wno-name-shadowing #-}
 module XMonad.Actions.MyFlexibleResize (mouseResizeEdgeWindow) where
 
 import Prelude hiding (last)

@@ -1,6 +1,6 @@
 {-# LANGUAGE LambdaCase, TupleSections #-}
 
-{-# OPTIONS_GHC -Wno-name-shadowing -Wno-unused-binds  #-}
+{-# OPTIONS_GHC -Wno-name-shadowing -Wno-unused-binds -Wno-incomplete-uni-patterns #-}
 
 module XMonad.Actions.PulseAudio where
 
@@ -85,9 +85,8 @@ getVolume (Right n) = do
   let channels = splitOn "," stripped
   let volumes = map readVolume channels
   let theOne = map (snd <$>) volumes
-  return $ head $ (catMaybes theOne) ++ [0]
+  return $ head $ catMaybes theOne ++ [0]
   -- (snd <$>) <$> readVolume <$> strip <$> drop 8 <$> 
-  
 
 setVolume :: Either Int String -> Double -> IO ()
 setVolume (Left idx) x = setVolume (Right $ show idx) x

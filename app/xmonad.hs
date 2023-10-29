@@ -1,5 +1,5 @@
 {-# LANGUAGE TupleSections #-}
-{-# OPTIONS_GHC -Wno-type-defaults #-}
+{-# OPTIONS_GHC -Wno-type-defaults -Wno-missing-signatures -Wno-name-shadowing #-}
 module Main where
 
 import System.IO
