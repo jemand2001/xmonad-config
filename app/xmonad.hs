@@ -2,7 +2,6 @@
 {-# OPTIONS_GHC -Wno-type-defaults #-}
 module Main where
 
-import Data.Monoid
 import System.IO
 import Data.Bits
 import Data.Maybe
@@ -16,10 +15,9 @@ import Graphics.X11.Types
 import Graphics.X11.ExtraTypes
 
 import XMonad
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.EZConfig (additionalKeys, additionalMouseBindings, removeKeys)
-import XMonad.Util.Run (spawnPipe, safeSpawn, runProcessWithInput)
+import XMonad.Util.Run (spawnPipe, runProcessWithInput)
 import XMonad.Util.Cursor
 import XMonad.Hooks.UrgencyHook
 import qualified XMonad.StackSet as W
@@ -39,10 +37,8 @@ import XMonad.Prompt
 import XMonad.Util.Ignore
 
 import XMonad.Actions.MyNotify
-import qualified XMonad.Util.ExtensibleState as XS
 import qualified DBus.Notify as N
 
-import XMonad.Actions.CycleRecentWS
 import qualified XMonad.Actions.MyFlexibleResize as Flex
 import XMonad.Actions.CopyWindow
 

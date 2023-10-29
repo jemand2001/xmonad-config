@@ -9,11 +9,9 @@ import Control.Monad.IO.Class
 import Data.Char
 import Data.List.Split
 import Data.Maybe
-import System.IO
 import XMonad.Util.Run
 import XMonad.Core
 import Data.List
-import Control.Exception
 
 data SinkState = Suspended | Running
 

@@ -1,6 +1,5 @@
 module XMonad.Util.Ignore (focusUpIgnoring, focusDownIgnoring) where
 
-import qualified Data.Map as M
 
 import XMonad
 import qualified XMonad.StackSet as W

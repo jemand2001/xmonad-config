@@ -2,7 +2,6 @@ module XMonad.Actions.MyFlexibleResize (mouseResizeEdgeWindow) where
 
 import Prelude hiding (last)
 import Graphics.X11
-import Graphics.X11.Xlib.Cursor
 import Foreign.C.Types
 import XMonad
 import XMonad.Util.XUtils (fi)
