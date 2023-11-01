@@ -55,6 +55,8 @@ import qualified Conf
 import XMonad.Hooks.MyManageHelpers
 import XMonad.Layout.LayoutHints
 import XMonad.Actions.PulseAudio
+import Data.List
+import Data.Char
 
 modKey :: KeyMask
 modKey = Conf.modKey
@@ -189,6 +191,7 @@ switchToWS = composeAll [
     className =? "firefox"  --> doShift "Browser"
   , className =? "discord"  --> doShift "Discord"
   , className =? "steam"    --> doShift "Steam"
+  , className <&> isPrefixOf "vscod" . map toLower --> doShift "Code"
   ]
 
 floatIt :: ManageHook

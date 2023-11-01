@@ -53,4 +53,4 @@ mediaController :: Maybe String
 mediaController = Just "liskin-media"
 
 workspaces :: [String]
-workspaces = ["Browser", "Discord", "3", "Steam"] ++ map show [5 :: Int .. 9]
+workspaces = ["Browser", "Discord", "Code", "Steam"] ++ map show [5 :: Int .. 9]
