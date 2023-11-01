@@ -51,3 +51,6 @@ restartCommand = "if type xmonad; then xmonad --recompile && xmonad --restart; e
 -- for example, liskin-media from https://github.com/liskin/dotfiles/blob/15c2cd83ce7297c38830053a9fd2be2f3678f4b0/bin/liskin-media
 mediaController :: Maybe String
 mediaController = Just "liskin-media"
+
+workspaces :: [String]
+workspaces = ["Browser", "Discord", "3", "Steam"] ++ map show [5 :: Int .. 9]

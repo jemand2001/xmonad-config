@@ -59,9 +59,6 @@ import XMonad.Actions.PulseAudio
 modKey :: KeyMask
 modKey = Conf.modKey
 
-myWorkspaces :: [String]
-myWorkspaces = ["Browser", "Discord", "3", "Steam"] ++ map show [5 .. 9]
-
 myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
   where
     tiled = Tall nmaster delta ratio
@@ -83,7 +80,7 @@ main = do
         , borderWidth = 1
         , normalBorderColor = "#449944"
         , focusedBorderColor = "#994444"
-        , workspaces = myWorkspaces
+        , workspaces = Conf.workspaces
         , XMonad.startupHook = Main.startupHook
         , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt, removeBorders]
         , logHook = unhideLogHook <+> logHook def
@@ -132,7 +129,7 @@ main = do
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)
-          | (k, ws) <- zip [xK_1..] myWorkspaces
+          | (k, ws) <- zip [xK_1..] Conf.workspaces
         ]
       `additionalMouseBindings` [
         ((modKey,                 button1), \w -> focus w >> mouseMoveWindow w)
