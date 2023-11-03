@@ -126,8 +126,8 @@ main = do
 
         , ((modKey,               xK_q      ), restartXMonad)
 
-        , ((modKey,               xK_F2     ), void (lowerVolume 3))
-        , ((modKey,               xK_F3     ), void (raiseVolume 3))
+        , ((modKey,               xK_F2     ), lowerVolume 3 >>= (notifyVolume . head))
+        , ((modKey,               xK_F3     ), raiseVolume 3 >>= (notifyVolume . head))
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)
@@ -288,3 +288,6 @@ maximizeHiddenFocused win = do
   withLastMinimized $ \last_ -> do
     when (last_ /= win) $
       maximizeWindow win
+
+notifyVolume :: Double -> X ()
+notifyVolume = replaceStateNotification "volume" "New Volume" . pure . show
