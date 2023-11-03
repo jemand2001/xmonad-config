@@ -2,7 +2,7 @@ module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
 
 -- |the key that activates most wm shortcuts
--- 
+--
 -- mod4 is the "windows key"
 modKey :: KeyMask
 modKey = mod4Mask
@@ -16,7 +16,7 @@ autorun :: String
 autorun = "~/programme/bin/autorun.sh"
 
 -- |your installation of the desktop zoom app `boomer`
--- 
+--
 -- see also https://github.com/tsoding/boomer
 boomerInstall :: Maybe String
 boomerInstall = Just "/usr/bin/boomer"
@@ -46,7 +46,7 @@ restartCommand :: String
 restartCommand = "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
 
 -- |a command to centrally control media playback
--- 
+--
 -- must support play, stop, next, and prev
 -- for example, liskin-media from https://github.com/liskin/dotfiles/blob/15c2cd83ce7297c38830053a9fd2be2f3678f4b0/bin/liskin-media
 mediaController :: Maybe String
