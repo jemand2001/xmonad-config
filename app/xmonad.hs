@@ -126,8 +126,8 @@ main = do
 
         , ((modKey,               xK_q      ), restartXMonad)
 
-        , ((modKey,               xK_F2     ), lowerVolume 3 >>= (notifyVolume . head))
-        , ((modKey,               xK_F3     ), raiseVolume 3 >>= (notifyVolume . head))
+        , ((modKey,               xK_F2     ), lowerVolume 3 >>= notifyVolume)
+        , ((modKey,               xK_F3     ), raiseVolume 3 >>= notifyVolume)
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)

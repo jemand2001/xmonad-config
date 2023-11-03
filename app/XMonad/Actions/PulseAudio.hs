@@ -96,14 +96,14 @@ setVolume sink x = do
   trace "started setVolume"
   spawn $ unwords ["pactl", "set-sink-volume", getId sink, show x ++ "%"]
 
-raiseVolume, lowerVolume :: MonadIO m => Double -> m [Double]
+raiseVolume, lowerVolume :: MonadIO m => Double -> m Double
 raiseVolume delta = liftIO $ do
   trace $ "started raiseVolume " ++ show delta
   sinkName <- getDefaultSink
   vol <- getVolume sinkName
   let newVol = delta + vol
   setVolume sinkName newVol
-  return [newVol]
+  return newVol
 lowerVolume = raiseVolume . negate
 
 
