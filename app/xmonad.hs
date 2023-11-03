@@ -52,14 +52,12 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 
 import qualified Conf
+import Conf (modKey)
 import XMonad.Hooks.MyManageHelpers
 import XMonad.Layout.LayoutHints
 import XMonad.Actions.PulseAudio
 import Data.List
 import Data.Char
-
-modKey :: KeyMask
-modKey = Conf.modKey
 
 myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
   where
