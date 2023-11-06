@@ -1,3 +1,13 @@
+{-|
+Module     : Conf
+Description: Configurable variables
+
+This module defines some variables which are used elsewhere
+and may be adjusted to suit your needs.
+
+Variables declared with 'Maybe' mark optional features;
+if you do not wish to use any of these you can set them to Nothing
+-}
 module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
 import System.Directory
@@ -53,10 +63,16 @@ restartCommand = "if type xmonad; then xmonad --recompile && xmonad --restart; e
 mediaController :: Maybe String
 mediaController = Just "liskin-media"
 
+-- |the names of your workspaces
+--
+-- my setup automatically shifts some programs to the named workspaces
 workspaces :: [String]
 workspaces = ["Browser", "Discord", "Code", "Steam"] ++ map show [5 :: Int .. 9]
 
 -- |a way to get the file that contains your countdowns (see 'XMonad.Actions.Countdown.notifyCountdowns')
+--
 -- unfortunately it has to be an IO because 'openFile' doesn't expand ~ to the home directory
+--
+-- the format is: 1 countdown per line, each line as "YYYY-MM-DD <description>"
 countdownFile :: Maybe (IO String)
 countdownFile = Just $ (++ "/.countdowns") <$> getHomeDirectory
