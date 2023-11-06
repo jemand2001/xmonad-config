@@ -1,5 +1,6 @@
 module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
+import System.Directory
 
 -- |the key that activates most wm shortcuts
 --
@@ -54,3 +55,8 @@ mediaController = Just "liskin-media"
 
 workspaces :: [String]
 workspaces = ["Browser", "Discord", "Code", "Steam"] ++ map show [5 :: Int .. 9]
+
+-- |a way to get the file that contains your countdowns (see 'XMonad.Actions.Countdown.notifyCountdowns')
+-- unfortunately it has to be an IO because 'openFile' doesn't expand ~ to the home directory
+countdownFile :: Maybe (IO String)
+countdownFile = Just $ (++ "/.countdowns") <$> getHomeDirectory

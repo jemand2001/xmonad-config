@@ -53,6 +53,7 @@ import Conf (modKey)
 import XMonad.Hooks.MyManageHelpers
 import XMonad.Layout.LayoutHints
 import XMonad.Actions.PulseAudio
+import XMonad.Actions.Countdown
 import Data.List
 import Data.Char
 import XMonad.Util.Time
@@ -145,6 +146,7 @@ main = do
         , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
         , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
         ])
+      `additionalKeys` maybe [] (\p -> [((modKey, xK_c), io p >>= notifyCountdowns)]) Conf.countdownFile
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [

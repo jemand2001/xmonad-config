@@ -70,6 +70,7 @@ executable xmonad-config-cabal
         Conf,
         XMonad.Actions.DBus,
         XMonad.Actions.PulseAudio,
+        XMonad.Actions.Countdown,
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -86,6 +87,7 @@ executable xmonad-config-cabal
         text,
         fdo-notify,
         split,
+        directory,
 
     -- Directories containing source files.
     hs-source-dirs:   app
