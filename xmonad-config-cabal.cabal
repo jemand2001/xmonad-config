@@ -66,6 +66,7 @@ executable xmonad-config-cabal
         XMonad.Hooks.MyManageHelpers,
         XMonad.Util.Ignore,
         XMonad.Util.Maybe,
+        XMonad.Util.Time,
         Conf,
         XMonad.Actions.DBus,
         XMonad.Actions.PulseAudio,

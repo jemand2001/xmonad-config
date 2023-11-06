@@ -5,9 +5,6 @@ module Main where
 import System.IO
 import Data.Bits
 import Data.Maybe
-import Data.Time.Clock
-import Data.Time.Format
-import Data.Time.LocalTime
 import Control.Monad
 import Data.Functor
 
@@ -58,6 +55,7 @@ import XMonad.Layout.LayoutHints
 import XMonad.Actions.PulseAudio
 import Data.List
 import Data.Char
+import XMonad.Util.Time
 
 myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
   where
@@ -239,9 +237,6 @@ myXPConfig = def {
     font = Conf.xPromptFont
   , autoComplete = Just 1000
   }
-
-getTimeString :: String -> X String
-getTimeString fmt = io $ formatTime defaultTimeLocale fmt <$> (utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime)
 
 goToWorkspaceOf :: Window -> WindowSet -> Maybe WindowSet
 goToWorkspaceOf window ws = flip W.view ws <$> W.findTag window ws
