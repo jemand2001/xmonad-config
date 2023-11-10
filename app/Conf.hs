@@ -10,7 +10,6 @@ if you do not wish to use any of these you can set them to Nothing
 -}
 module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
-import System.Directory
 
 -- |the key that activates most wm shortcuts
 --
@@ -71,8 +70,6 @@ workspaces = ["Browser", "Discord", "Code", "Steam"] ++ map show [5 :: Int .. 9]
 
 -- |a way to get the file that contains your countdowns (see 'XMonad.Actions.Countdown.notifyCountdowns')
 --
--- unfortunately it has to be an IO because 'openFile' doesn't expand ~ to the home directory
---
 -- the format is: 1 countdown per line, each line as "YYYY-MM-DD <description>"
-countdownFile :: Maybe (IO String)
-countdownFile = Just $ (++ "/.countdowns") <$> getHomeDirectory
+countdownFile :: Maybe String
+countdownFile = Just "~/.countdowns"

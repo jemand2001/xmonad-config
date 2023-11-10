@@ -146,7 +146,7 @@ main = do
         , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
         , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
         ])
-      `additionalKeys` maybe [] (\p -> [((modKey, xK_c), io p >>= notifyCountdowns)]) Conf.countdownFile
+      `additionalKeys` maybe [] (\p -> [((modKey, xK_c), notifyCountdowns p)]) Conf.countdownFile
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [

@@ -13,12 +13,15 @@ import Data.Char (isSpace)
 
 import XMonad.Util.Time
 
+import XMonad.Util.Paths
+
 type Countdown = (String, Day)
 
 notifyCountdowns :: FilePath -> X ()
 notifyCountdowns p = do
+  path <- tildeExpand p
   replaceStateNotification "countdowns" "Countdowns" $ do
-    countdowns <- io $ getCountdowns p
+    countdowns <- io $ getCountdowns path
     today <- localDay <$> now
     return $ unlines [
         title ++ ": " ++ show (diffDays day today) ++ " days" |

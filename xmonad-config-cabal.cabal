@@ -67,6 +67,7 @@ executable xmonad-config-cabal
         XMonad.Util.Ignore,
         XMonad.Util.Maybe,
         XMonad.Util.Time,
+        XMonad.Util.Paths,
         Conf,
         XMonad.Actions.DBus,
         XMonad.Actions.PulseAudio,
@@ -88,6 +89,7 @@ executable xmonad-config-cabal
         fdo-notify,
         split,
         directory,
+        filepath,
 
     -- Directories containing source files.
     hs-source-dirs:   app
