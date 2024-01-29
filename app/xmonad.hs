@@ -125,6 +125,9 @@ main = do
 
         , ((modKey,               xK_F2     ), lowerVolume 3 >>= notifyVolume)
         , ((modKey,               xK_F3     ), raiseVolume 3 >>= notifyVolume)
+        , ((0,       xF86XK_AudioLowerVolume), lowerVolume 3 >>= notifyVolume)
+        , ((0,       xF86XK_AudioRaiseVolume), raiseVolume 3 >>= notifyVolume)
+        , ((0,       xF86XK_AudioMute       ), muteVolume)
         ]
       `additionalKeys` [
           ((modKey,               k         ), windows (W.view ws) >> notifyWS)

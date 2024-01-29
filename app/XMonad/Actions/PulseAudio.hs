@@ -77,12 +77,10 @@ stripBack = reverse . stripFront . reverse
 
 getDefaultSink :: IO String
 getDefaultSink = do
-  trace "started getDefaultSink"
   strip <$> runProcessWithInput "pactl" ["get-default-sink"] ""
 
 getVolume :: IsId a => a -> IO Double
 getVolume n = do
-  trace "started getVolume"
   output <- runProcessWithInput "pactl" ["get-sink-volume", getId n] ""
   let dropped = drop 8 output
   let stripped = strip dropped
@@ -93,12 +91,10 @@ getVolume n = do
 
 setVolume :: IsId a => a -> Double -> IO ()
 setVolume sink x = do
-  trace "started setVolume"
   spawn $ unwords ["pactl", "set-sink-volume", getId sink, show x ++ "%"]
 
 raiseVolume, lowerVolume :: MonadIO m => Double -> m Double
 raiseVolume delta = liftIO $ do
-  trace $ "started raiseVolume " ++ show delta
   sinkName <- getDefaultSink
   vol <- getVolume sinkName
   let newVol = delta + vol
@@ -106,6 +102,11 @@ raiseVolume delta = liftIO $ do
   return newVol
 lowerVolume = raiseVolume . negate
 
+muteVolume :: MonadIO m => m ()
+muteVolume = liftIO $ do
+  sink <- getDefaultSink
+  spawn $ unwords ["pactl", "set-sink-mute", sink, "toggle"]
+  return ()
 
 readVolume :: String -> Maybe (String, Double)
 readVolume =
