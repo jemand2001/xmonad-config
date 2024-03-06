@@ -190,8 +190,9 @@ instance UrgencyHook LibNotifyUrgencyHook where
 switchToWS :: ManageHook
 switchToWS = composeAll [
     className =? "firefox"  --> doShift "Browser"
-  , className =? "discord"  --> doShift "Discord"
+  , className =? "discord"  --> doShift "Chat"
   , className =? "steam"    --> doShift "Steam"
+  , className =? "Signal"   --> doShift "Chat"
   , className <&> isPrefixOf "vscod" . map toLower --> doShift "Code"
   ]
 

@@ -66,7 +66,7 @@ mediaController = Just "liskin-media"
 --
 -- my setup automatically shifts some programs to the named workspaces
 workspaces :: [String]
-workspaces = ["Browser", "Discord", "Code", "Steam"] ++ map show [5 :: Int .. 9]
+workspaces = ["Browser", "Chat", "Code", "Games"] ++ map show [5 :: Int .. 9]
 
 -- |a way to get the file that contains your countdowns (see 'XMonad.Actions.Countdown.notifyCountdowns')
 --
