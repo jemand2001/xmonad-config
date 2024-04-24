@@ -33,7 +33,7 @@ getCountdowns p = do
   f <- openFile p ReadMode
   contents <- hGetContents' f
   hClose f
-  return $ map parseCountdown $ lines contents
+  return $ map parseCountdown $ filter (not . null) $ lines contents
   where
     parseCountdown :: String -> Countdown
     parseCountdown l = (rest, date)
