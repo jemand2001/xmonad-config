@@ -57,6 +57,7 @@ import XMonad.Actions.Countdown
 import Data.List
 import Data.Char
 import XMonad.Util.Time
+import Control.Applicative
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
@@ -274,7 +275,10 @@ nextScreen = withWindowSet $ \ws -> do
   firstWorkspace <- screenWorkspace 0
   nextWorkspace <- screenWorkspace nextId
   let switchScreen = windows . W.view
-  maybe (whenJust firstWorkspace switchScreen) switchScreen nextWorkspace
+  let newWorkspace = nextWorkspace <|> firstWorkspace
+  whenJust newWorkspace $ \workspace -> do
+    switchScreen workspace
+    notifyWS
 
 notifyOutput :: String -> X ()
 notifyOutput s = do
