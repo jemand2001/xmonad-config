@@ -273,19 +273,16 @@ notifyOutput s = do
     hClose h
 
 toggleSystray :: X ()
-toggleSystray = do
-  whenJust Conf.systemTray $ \tray ->
+toggleSystray = whenJust Conf.systemTray $ \tray ->
     spawn $ concat ["pgrep ", tray, " && killall ", tray, " || ", tray, " >> ", fromMaybe "/dev/null" Conf.autorunLog]
 
 unhideLogHook :: X ()
 unhideLogHook = do
   refocusLastLogHook
-  -- withFocused maximizeHiddenFocused
+  withFocused maximizeHiddenFocused
 
 maximizeHiddenFocused :: Window -> X ()
-maximizeHiddenFocused win = do
-  withLastMinimized $ \last_ -> do
-    when (last_ /= win) $
+maximizeHiddenFocused win = withLastMinimized $ \last_ -> when (last_ /= win) $
       maximizeWindow win
 
 notifyVolume :: Double -> X ()
