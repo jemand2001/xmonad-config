@@ -67,89 +67,88 @@ myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
     ratio = 1/2
 
 main :: IO ()
-main = do
-  xmonad $
-    withUrgencyHook LibNotifyUrgencyHook $
-    ewmh $
-    docks
-      def
-        { layoutHook = myLayout
-        , modMask = modKey -- Rebind Mod to the Windows key
-        , terminal = Conf.terminal
-        , borderWidth = 1
-        , normalBorderColor = "#449944"
-        , focusedBorderColor = "#994444"
-        , workspaces = Conf.workspaces
-        , XMonad.startupHook = Main.startupHook
-        , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt, removeBorders]
-        , logHook = unhideLogHook <+> logHook def
-        , clickJustFocuses = False
-        }
-      `removeKeys` badKeys
-      `additionalKeys` [
-          ((0,                    xK_Print  ), spawn "flameshot gui")
-        , ((shiftMask,            xK_Print  ), spawn "flameshot full -c")
+main = xmonad $
+  withUrgencyHook LibNotifyUrgencyHook $
+  ewmh $
+  docks
+    def
+      { layoutHook = myLayout
+      , modMask = modKey -- Rebind Mod to the Windows key
+      , terminal = Conf.terminal
+      , borderWidth = 1
+      , normalBorderColor = "#449944"
+      , focusedBorderColor = "#994444"
+      , workspaces = Conf.workspaces
+      , XMonad.startupHook = Main.startupHook
+      , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt]
+      , logHook = unhideLogHook <+> logHook def
+      , clickJustFocuses = False
+      }
+    `removeKeys` badKeys
+    `additionalKeys` [
+        ((0,                    xK_Print  ), spawn "flameshot gui")
+      , ((shiftMask,            xK_Print  ), spawn "flameshot full -c")
 
-        , ((modKey,               xK_Return ), spawn Conf.terminal)
-        , ((modKey,               xK_r      ), spawn "rofi -show drun")
-        , ((modKey .|. shiftMask, xK_r      ), spawn "rofi -show run")
+      , ((modKey,               xK_Return ), spawn Conf.terminal)
+      , ((modKey,               xK_r      ), spawn "rofi -show drun")
+      , ((modKey .|. shiftMask, xK_r      ), spawn "rofi -show run")
 
-        , ((modKey,               xK_Right  ), nextWS)
-        , ((modKey,               xK_Left   ), prevWS)
-        , ((modKey .|. shiftMask, xK_t      ), withFocused toggleFloat)
-        , ((modKey,               xK_space  ), sinkAll >> sendMessage NextLayout)
-        , ((modKey,               xK_b      ), runAutorun)
-        , ((modKey,               xK_n      ), withFocused minimizeWindow)
-        , ((modKey,               xK_grave  ), withFirstMinimized maximizeWindowAndFocus)
-        , ((modKey .|. shiftMask, xK_grave  ), withLastMinimized maximizeWindowAndFocus)
+      , ((modKey,               xK_Right  ), nextWS)
+      , ((modKey,               xK_Left   ), prevWS)
+      , ((modKey .|. shiftMask, xK_t      ), withFocused toggleFloat)
+      , ((modKey,               xK_space  ), sinkAll >> sendMessage NextLayout)
+      , ((modKey,               xK_b      ), runAutorun)
+      , ((modKey,               xK_n      ), withFocused minimizeWindow)
+      , ((modKey,               xK_grave  ), withFirstMinimized maximizeWindowAndFocus)
+      , ((modKey .|. shiftMask, xK_grave  ), withLastMinimized maximizeWindowAndFocus)
 
-        , ((modKey,               xK_w      ), spawn "rofi -show windowcd")
-        , ((modKey .|. shiftMask, xK_w      ), spawn "rofi -show window")
+      , ((modKey,               xK_w      ), spawn "rofi -show windowcd")
+      , ((modKey .|. shiftMask, xK_w      ), spawn "rofi -show window")
 
-        , ((modKey,               xK_s      ), notifyWS)
-        , ((modKey,               xK_t      ), notifyTime)
+      , ((modKey,               xK_s      ), notifyWS)
+      , ((modKey,               xK_t      ), notifyTime)
 
-        , ((modKey .|. controlMask, xK_t    ), toggleSystray)
+      , ((modKey .|. controlMask, xK_t    ), toggleSystray)
 
-        , ((modKey,               xK_j      ), withMinimized $ windows . focusDownIgnoring)
-        , ((modKey,               xK_k      ), withMinimized $ windows . focusUpIgnoring)
+      , ((modKey,               xK_j      ), withMinimized $ windows . focusDownIgnoring)
+      , ((modKey,               xK_k      ), withMinimized $ windows . focusUpIgnoring)
 
-        , ((modKey,               xK_i      ), windows copyToAll)   -- "mark sticky"
-        , ((modKey .|. shiftMask, xK_i      ), killAllOtherCopies)  -- "unmark sticky"
+      , ((modKey,               xK_i      ), windows copyToAll)   -- "mark sticky"
+      , ((modKey .|. shiftMask, xK_i      ), killAllOtherCopies)  -- "unmark sticky"
 
-        , ((modKey .|. shiftMask, xK_n      ), notifyWindowName)
+      , ((modKey .|. shiftMask, xK_n      ), notifyWindowName)
 
-        , ((modKey,               xK_u      ), withFocused maximizeWindowAndFocus)  -- "unminimize" the focused window; useful when you have a notification from a minimized window
+      , ((modKey,               xK_u      ), withFocused maximizeWindowAndFocus)  -- "unminimize" the focused window; useful when you have a notification from a minimized window
 
-        , ((modKey,               xK_q      ), restartXMonad)
+      , ((modKey,               xK_q      ), restartXMonad)
 
-        , ((modKey,               xK_F2     ), lowerVolume 3 >>= notifyVolume)
-        , ((modKey,               xK_F3     ), raiseVolume 3 >>= notifyVolume)
-        , ((0,       xF86XK_AudioLowerVolume), lowerVolume 3 >>= notifyVolume)
-        , ((0,       xF86XK_AudioRaiseVolume), raiseVolume 3 >>= notifyVolume)
-        , ((0,       xF86XK_AudioMute       ), muteVolume)
-        ]
-      `additionalKeys` [
-          ((modKey,               k         ), windows (W.view ws) >> notifyWS)
-          | (k, ws) <- zip [xK_1..] Conf.workspaces
-        ]
-      `additionalMouseBindings` [
-        ((modKey,                 button1), \w -> focus w >> mouseMoveWindow w)
-      , ((modKey,                 button2), \w -> focus w >> snapMagicMouseResize 0.5 Nothing Nothing w)
-      , ((modKey,                 button3), \w -> focus w >> Flex.mouseResizeEdgeWindow 0.5 w)
-      , ((modKey .|. shiftMask,   button4), const prevWS)
-      , ((modKey .|. shiftMask,   button5), const nextWS)
+      , ((modKey,               xK_F2     ), lowerVolume 3 >>= notifyVolume)
+      , ((modKey,               xK_F3     ), raiseVolume 3 >>= notifyVolume)
+      , ((0,       xF86XK_AudioLowerVolume), lowerVolume 3 >>= notifyVolume)
+      , ((0,       xF86XK_AudioRaiseVolume), raiseVolume 3 >>= notifyVolume)
+      , ((0,       xF86XK_AudioMute       ), muteVolume)
       ]
-      `additionalKeys` map (\(a, b, program) -> ((a, b), spawn program)) (catMaybes [
-          (modKey, xK_z,) <$> Conf.boomerInstall
-        , (modKey, xK_l,) <$> Conf.screenLock
-        , (0, xF86XK_AudioPlay, ) <$> (Conf.mediaController <&> (++ " play"))
-        , (0, xF86XK_AudioPause,) <$> (Conf.mediaController <&> (++ " play"))
-        , (0, xF86XK_AudioStop, ) <$> (Conf.mediaController <&> (++ " stop"))
-        , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
-        , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
-        ])
-      `additionalKeys` maybe [] (\p -> [((modKey, xK_c), notifyCountdowns p)]) Conf.countdownFile
+    `additionalKeys` [
+        ((modKey,               k         ), windows (W.view ws) >> notifyWS)
+        | (k, ws) <- zip [xK_1..] Conf.workspaces
+      ]
+    `additionalMouseBindings` [
+      ((modKey,                 button1), \w -> focus w >> mouseMoveWindow w)
+    , ((modKey,                 button2), \w -> focus w >> snapMagicMouseResize 0.5 Nothing Nothing w)
+    , ((modKey,                 button3), \w -> focus w >> Flex.mouseResizeEdgeWindow 0.5 w)
+    , ((modKey .|. shiftMask,   button4), const prevWS)
+    , ((modKey .|. shiftMask,   button5), const nextWS)
+    ]
+    `additionalKeys` map (\(a, b, program) -> ((a, b), spawn program)) (catMaybes [
+        (modKey, xK_z,) <$> Conf.boomerInstall
+      , (modKey, xK_l,) <$> Conf.screenLock
+      , (0, xF86XK_AudioPlay, ) <$> (Conf.mediaController <&> (++ " play"))
+      , (0, xF86XK_AudioPause,) <$> (Conf.mediaController <&> (++ " play"))
+      , (0, xF86XK_AudioStop, ) <$> (Conf.mediaController <&> (++ " stop"))
+      , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
+      , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
+      ])
+    `additionalKeys` maybe [] (\p -> [((modKey, xK_c), notifyCountdowns p)]) Conf.countdownFile
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [
