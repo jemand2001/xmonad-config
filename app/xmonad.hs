@@ -58,7 +58,7 @@ import Data.List
 import Data.Char
 import XMonad.Util.Time
 
-myLayout = layoutHints $ boringAuto $ minimize $ Full ||| tiled ||| Mirror tiled
+myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
     tiled = Tall nmaster delta ratio
     -- see XMonad.Config.layout
