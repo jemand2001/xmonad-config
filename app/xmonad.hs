@@ -95,6 +95,9 @@ main = xmonad $
 
       , ((modKey,               xK_Right  ), nextWS)
       , ((modKey,               xK_Left   ), prevWS)
+
+      , ((modKey,               xK_e      ), nextScreen)
+
       , ((modKey .|. shiftMask, xK_t      ), withFocused toggleFloat)
       , ((modKey,               xK_space  ), sinkAll >> sendMessage NextLayout)
       , ((modKey,               xK_b      ), runAutorun)
@@ -129,7 +132,7 @@ main = xmonad $
       , ((0,       xF86XK_AudioMute       ), muteVolume)
       ]
     `additionalKeys` [
-        ((modKey,               k         ), windows (W.view ws) >> notifyWS)
+        ((modKey,               k         ), windows (W.greedyView ws) >> notifyWS)
         | (k, ws) <- zip [xK_1..] Conf.workspaces
       ]
     `additionalMouseBindings` [
@@ -245,7 +248,7 @@ myXPConfig = def {
   }
 
 goToWorkspaceOf :: Window -> WindowSet -> Maybe WindowSet
-goToWorkspaceOf window ws = flip W.view ws <$> W.findTag window ws
+goToWorkspaceOf window ws = flip W.greedyView ws <$> W.findTag window ws
 
 notifyTime :: X ()
 notifyTime = replaceStateNotification "time" "Time" (getTimeString "%a %d.%m.%Y: %T")
@@ -263,6 +266,15 @@ nextWS = Cycle.nextWS >> notifyWS
 
 prevWS :: X ()
 prevWS = Cycle.prevWS >> notifyWS
+
+nextScreen :: X ()
+nextScreen = withWindowSet $ \ws -> do
+  let currentScreen = W.screen $ W.current ws
+  let nextId = currentScreen + 1
+  firstWorkspace <- screenWorkspace 0
+  nextWorkspace <- screenWorkspace nextId
+  let switchScreen = windows . W.view
+  maybe (whenJust firstWorkspace switchScreen) switchScreen nextWorkspace
 
 notifyOutput :: String -> X ()
 notifyOutput s = do
