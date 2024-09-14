@@ -19,8 +19,10 @@ modKey :: KeyMask
 modKey = mod4Mask
 
 -- |the path to your preferred wallpaper
+--
+-- Mine is from https://wallpapersden.com/space-storm-hd-galaxy-wallpaper/
 backgroundImage :: String
-backgroundImage = "~/Pictures/red-space.jpg"
+backgroundImage = "~/Pictures/space-storm.jpg"
 
 -- |a script to be run at startup, as well as whenever you press mod+b
 autorun :: String
@@ -74,9 +76,3 @@ workspaces = ["Browser", "Chat", "Code", "Games"] ++ map show [5 :: Int .. 9]
 -- the format is: 1 countdown per line, each line as "YYYY-MM-DD <description>"
 countdownFile :: Maybe String
 countdownFile = Just "~/.countdowns"
-
--- |The way you wish to switch between workspaces
---
--- Usually this will be 'XMonad.StackSet.view' or 'XMonad.StackSet.greedyView', but you may cusomize this to your liking
-viewPolicy :: (Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd 
-viewPolicy = W.view

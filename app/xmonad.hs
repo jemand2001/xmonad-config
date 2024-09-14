@@ -57,7 +57,6 @@ import XMonad.Actions.Countdown
 import Data.List
 import Data.Char
 import XMonad.Util.Time
-import Control.Applicative
 import Control.Exception (bracket)
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
@@ -98,7 +97,7 @@ main = xmonad $
       , ((modKey,               xK_Right  ), nextWS)
       , ((modKey,               xK_Left   ), prevWS)
 
-      , ((modKey,               xK_e      ), nextScreen)
+      , ((modKey,               xK_e      ), Cycle.nextScreen >> notifyWS)
 
       , ((modKey .|. shiftMask, xK_t      ), withFocused toggleFloat)
       , ((modKey,               xK_space  ), sinkAll >> sendMessage NextLayout)
@@ -134,8 +133,9 @@ main = xmonad $
       , ((0,       xF86XK_AudioMute       ), muteVolume)
       ]
     `additionalKeys` [
-        ((modKey,               k         ), windows (Conf.viewPolicy ws) >> notifyWS)
+        ((modKey .|. modifier,  k         ), windows (viewPolicy ws) >> notifyWS)
         | (k, ws) <- zip [xK_1..] Conf.workspaces
+        , (modifier, viewPolicy) <- [(noModMask, W.view), (controlMask, W.greedyView)]
       ]
     `additionalMouseBindings` [
       ((modKey,                 button1), \w -> focus w >> mouseMoveWindow w)
@@ -172,7 +172,7 @@ startupHook = do
   trace "START"
   setDefaultCursor xC_arrow
   void ensureConnected
-  spawn $ "xloadimage -onroot -fullscreen " ++ Conf.backgroundImage
+  spawn $ "xloadimage -onroot " ++ Conf.backgroundImage
   runAutorun
   setWMName "LG3D"
   void $ notifySend "XMonad" "startup finished" []
@@ -250,7 +250,7 @@ myXPConfig = def {
   }
 
 goToWorkspaceOf :: Window -> WindowSet -> Maybe WindowSet
-goToWorkspaceOf window ws = flip Conf.viewPolicy ws <$> W.findTag window ws
+goToWorkspaceOf window ws = flip W.view ws <$> W.findTag window ws
 
 notifyTime :: X ()
 notifyTime = replaceStateNotification "time" "Time" (getTimeString "%a %d.%m.%Y: %T")
@@ -268,18 +268,6 @@ nextWS = Cycle.nextWS >> notifyWS
 
 prevWS :: X ()
 prevWS = Cycle.prevWS >> notifyWS
-
-nextScreen :: X ()
-nextScreen = withWindowSet $ \ws -> do
-  let currentScreen = W.screen $ W.current ws
-  let nextId = currentScreen + 1
-  firstWorkspace <- screenWorkspace 0
-  nextWorkspace <- screenWorkspace nextId
-  let switchScreen = windows . Conf.viewPolicy
-  let newWorkspace = nextWorkspace <|> firstWorkspace
-  whenJust newWorkspace $ \workspace -> do
-    switchScreen workspace
-    notifyWS
 
 notifyOutput :: String -> X ()
 notifyOutput s = do
