@@ -6,10 +6,11 @@ This module defines some variables which are used elsewhere
 and may be adjusted to suit your needs.
 
 Variables declared with 'Maybe' mark optional features;
-if you do not wish to use any of these you can set them to Nothing
+if you do not wish to use any of these you can set them to 'Nothing'
 -}
 module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
+import qualified XMonad.StackSet as W
 
 -- |the key that activates most wm shortcuts
 --
@@ -73,3 +74,9 @@ workspaces = ["Browser", "Chat", "Code", "Games"] ++ map show [5 :: Int .. 9]
 -- the format is: 1 countdown per line, each line as "YYYY-MM-DD <description>"
 countdownFile :: Maybe String
 countdownFile = Just "~/.countdowns"
+
+-- |The way you wish to switch between workspaces
+--
+-- Usually this will be 'XMonad.StackSet.view' or 'XMonad.StackSet.greedyView', but you may cusomize this to your liking
+viewPolicy :: (Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd 
+viewPolicy = W.view

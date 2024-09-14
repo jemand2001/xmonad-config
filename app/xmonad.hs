@@ -58,6 +58,7 @@ import Data.List
 import Data.Char
 import XMonad.Util.Time
 import Control.Applicative
+import Control.Exception (bracket)
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
@@ -133,7 +134,7 @@ main = xmonad $
       , ((0,       xF86XK_AudioMute       ), muteVolume)
       ]
     `additionalKeys` [
-        ((modKey,               k         ), windows (W.greedyView ws) >> notifyWS)
+        ((modKey,               k         ), windows (Conf.viewPolicy ws) >> notifyWS)
         | (k, ws) <- zip [xK_1..] Conf.workspaces
       ]
     `additionalMouseBindings` [
@@ -249,7 +250,7 @@ myXPConfig = def {
   }
 
 goToWorkspaceOf :: Window -> WindowSet -> Maybe WindowSet
-goToWorkspaceOf window ws = flip W.greedyView ws <$> W.findTag window ws
+goToWorkspaceOf window ws = flip Conf.viewPolicy ws <$> W.findTag window ws
 
 notifyTime :: X ()
 notifyTime = replaceStateNotification "time" "Time" (getTimeString "%a %d.%m.%Y: %T")
@@ -274,7 +275,7 @@ nextScreen = withWindowSet $ \ws -> do
   let nextId = currentScreen + 1
   firstWorkspace <- screenWorkspace 0
   nextWorkspace <- screenWorkspace nextId
-  let switchScreen = windows . W.view
+  let switchScreen = windows . Conf.viewPolicy
   let newWorkspace = nextWorkspace <|> firstWorkspace
   whenJust newWorkspace $ \workspace -> do
     switchScreen workspace
