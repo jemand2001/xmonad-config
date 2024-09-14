@@ -283,10 +283,7 @@ nextScreen = withWindowSet $ \ws -> do
 notifyOutput :: String -> X ()
 notifyOutput s = do
   out <- runProcessWithInput s [] ""
-  h <- spawnPipe "xmessage -file -"
-  io $ do
-    hPutStr h out
-    hClose h
+  io $ bracket (spawnPipe "xmessage -file -") hClose $ flip hPutStr out
 
 toggleSystray :: X ()
 toggleSystray = whenJust Conf.systemTray $ \tray ->
