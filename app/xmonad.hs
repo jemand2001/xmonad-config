@@ -248,7 +248,12 @@ notifyTime = replaceStateNotification "time" "Time" (getTimeString "%a %d.%m.%Y:
 notifyWS :: X ()
 notifyWS = replaceStateNotification "workspace" "Workspace" getTag
   where
-    getTag = withWindowSet $ return . W.currentTag
+    getTag = withWindowSet $ \windowset -> do
+      let tag = W.currentTag windowset
+      let screens = W.screens windowset
+      let screen = find (\scr -> W.tag (W.workspace scr) == tag) screens
+      let suffix = maybe "" (\scr -> " on screen " ++ show (fromEnum $ W.screen scr)) screen
+      return (tag ++ suffix)
 
 notifyWindowName :: X ()
 notifyWindowName = withFocused $ getName >=> (replaceStateNotification "windowTitle" "Window Title" . pure . show)
