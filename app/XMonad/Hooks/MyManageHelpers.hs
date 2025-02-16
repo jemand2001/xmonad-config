@@ -1,7 +1,8 @@
-module XMonad.Hooks.MyManageHelpers where
+module XMonad.Hooks.MyManageHelpers (propertyContains, wmName, (~=?)) where
 
 import Data.List
 import XMonad
+import Data.Char
 
 -- | A Query that returns whether a string property contains a substring.
 propertyContains ::
@@ -14,3 +15,6 @@ propertyContains prop val = do
 
 wmName :: Query String
 wmName = stringProperty "WM_NAME"
+
+(~=?) :: Query String -> String -> Query Bool
+q ~=? s = (map toLower <$> q) =? map toLower s

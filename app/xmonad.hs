@@ -195,7 +195,7 @@ switchToWS :: ManageHook
 switchToWS = composeAll [
     className =? "firefox"     --> doShift "Browser"
   , className =? "discord"     --> doShift "Chat"
-  , className =? "steam"       --> doShift "Steam"
+  , wmName    ~=? "steam"      --> doShift "Steam"
   , className =? "Signal"      --> doShift "Chat"
   , className =? "thunderbird" --> doShift "Chat"
   , className <&> isPrefixOf "vscod" . map toLower --> doShift "Code"
