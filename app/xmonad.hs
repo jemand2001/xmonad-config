@@ -1,63 +1,53 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-type-defaults -Wno-missing-signatures -Wno-name-shadowing #-}
+
 module Main where
 
-import System.IO
-import Data.Bits
-import Data.Maybe
-import Control.Monad
-import Data.Functor
-
-import Graphics.X11.Types
-import Graphics.X11.ExtraTypes
-
-import XMonad
-import XMonad.Hooks.ManageDocks
-import XMonad.Util.EZConfig (additionalKeys, additionalMouseBindings, removeKeys)
-import XMonad.Util.Run (spawnPipe, runProcessWithInput)
-import XMonad.Util.Cursor
-import XMonad.Hooks.UrgencyHook
-import qualified XMonad.StackSet as W
-import XMonad.Util.NamedWindows
-import qualified XMonad.Actions.CycleWS as Cycle
-import XMonad.Hooks.SetWMName
-import XMonad.Hooks.EwmhDesktops
-
-import XMonad.Layout.Minimize
-import XMonad.Actions.Minimize
-import XMonad.Layout.BoringWindows
-import XMonad.Actions.FloatSnap
-import XMonad.Actions.WithAll
-
-import XMonad.Prompt
-
-import XMonad.Util.Ignore
-
-import XMonad.Actions.MyNotify
-import qualified DBus.Notify as N
-
-import qualified XMonad.Actions.MyFlexibleResize as Flex
-import XMonad.Actions.CopyWindow
-
-import XMonad.Actions.StatefulNotify
-import XMonad.Actions.DBus
-import XMonad.Layout.NoBorders
-
-import qualified Data.Map as M
-
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.RefocusLast (refocusLastLogHook)
-
-import qualified Conf
 import Conf (modKey)
-import XMonad.Hooks.MyManageHelpers
-import XMonad.Layout.LayoutHints
-import XMonad.Actions.PulseAudio
-import XMonad.Actions.Countdown
-import Data.List
-import Data.Char
-import XMonad.Util.Time
+import qualified Conf
 import Control.Exception (bracket)
+import Control.Monad
+import qualified DBus.Notify as N
+import Data.Bits
+import Data.Char
+import Data.Functor
+import Data.List
+import qualified Data.Map as M
+import Data.Maybe
+import Graphics.X11.ExtraTypes
+import Graphics.X11.Types
+import System.IO
+import XMonad
+import XMonad.Actions.CopyWindow
+import XMonad.Actions.Countdown
+import qualified XMonad.Actions.CycleWS as Cycle
+import XMonad.Actions.DBus
+import XMonad.Actions.FloatSnap
+import XMonad.Actions.Minimize
+import qualified XMonad.Actions.MyFlexibleResize as Flex
+import XMonad.Actions.MyNotify
+import XMonad.Actions.PulseAudio
+import XMonad.Actions.StatefulNotify
+import XMonad.Actions.WithAll
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.MyManageHelpers
+import XMonad.Hooks.RefocusLast (refocusLastLogHook)
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.UrgencyHook
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.LayoutHints
+import XMonad.Layout.Minimize
+import XMonad.Layout.NoBorders
+import XMonad.Prompt
+import qualified XMonad.StackSet as W
+import XMonad.Util.Cursor
+import XMonad.Util.EZConfig (additionalKeys, additionalMouseBindings, removeKeys)
+import XMonad.Util.Ignore
+import XMonad.Util.NamedWindows
+import XMonad.Util.Run (runProcessWithInput, spawnPipe)
+import XMonad.Util.Time
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
