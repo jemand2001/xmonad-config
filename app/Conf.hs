@@ -38,6 +38,10 @@ boomerInstall = Just "/usr/bin/boomer"
 screenLock :: Maybe String
 screenLock = Just "XSECURELOCK_PASSWORD_PROMPT=time xsecurelock"
 
+-- |a clipboard manager
+clipboardManager :: Maybe String
+clipboardManager = Just "clipcat-menu"
+
 -- |your preferred terminal
 terminal :: String
 terminal = "terminator"

@@ -137,6 +137,7 @@ main = xmonad $
     `additionalKeys` map (\(a, b, program) -> ((a, b), spawn program)) (catMaybes [
         (modKey, xK_z,) <$> Conf.boomerInstall
       , (modKey, xK_l,) <$> Conf.screenLock
+      , (modKey .|. shiftMask, xK_c,) <$> Conf.clipboardManager
       , (0, xF86XK_AudioPlay, ) <$> (Conf.mediaController <&> (++ " play"))
       , (0, xF86XK_AudioPause,) <$> (Conf.mediaController <&> (++ " play"))
       , (0, xF86XK_AudioStop, ) <$> (Conf.mediaController <&> (++ " stop"))
