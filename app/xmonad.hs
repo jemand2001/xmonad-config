@@ -48,6 +48,7 @@ import XMonad.Util.Ignore
 import XMonad.Util.NamedWindows
 import XMonad.Util.Run (runProcessWithInput, spawnPipe)
 import XMonad.Util.Time
+import XMonad.Actions.PushWindow
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
@@ -106,6 +107,9 @@ main = xmonad $
 
       , ((modKey,               xK_j      ), withMinimized $ windows . focusDownIgnoring)
       , ((modKey,               xK_k      ), withMinimized $ windows . focusUpIgnoring)
+
+      , ((modKey .|. shiftMask, xK_j      ), windows pushDown)
+      , ((modKey .|. shiftMask, xK_k      ), windows pushUp)
 
       , ((modKey,               xK_i      ), windows copyToAll)   -- "mark sticky"
       , ((modKey .|. shiftMask, xK_i      ), killAllOtherCopies)  -- "unmark sticky"
