@@ -142,13 +142,18 @@ main = xmonad $
         (modKey, xK_z,) <$> Conf.boomerInstall
       , (modKey, xK_l,) <$> Conf.screenLock
       , (modKey .|. shiftMask, xK_c,) <$> Conf.clipboardManager
-      , (0, xF86XK_AudioPlay, ) <$> (Conf.mediaController <&> (++ " play"))
-      , (0, xF86XK_AudioPause,) <$> (Conf.mediaController <&> (++ " play"))
-      , (0, xF86XK_AudioStop, ) <$> (Conf.mediaController <&> (++ " stop"))
-      , (0, xF86XK_AudioNext, ) <$> (Conf.mediaController <&> (++ " next"))
-      , (0, xF86XK_AudioPrev, ) <$> (Conf.mediaController <&> (++ " prev"))
       ])
     `additionalKeys` maybe [] (\p -> [((modKey, xK_c), notifyCountdowns p)]) Conf.countdownFile
+    `additionalKeys` maybe [] (\controller -> [((0, k), spawn $ controller ++ " " ++ c)
+      |
+      (k, c) <- [
+        (xF86XK_AudioPlay,  "play")
+      , (xF86XK_AudioPause, "play")
+      , (xF86XK_AudioStop,  "stop")
+      , (xF86XK_AudioNext,  "next")
+      , (xF86XK_AudioPrev,  "prev")
+      ]
+    ]) Conf.mediaController
 
 badKeys :: [(KeyMask, KeySym)]
 badKeys = [
