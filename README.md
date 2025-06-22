@@ -4,7 +4,7 @@ This is the configuration that I, jemand2001, use on all my computers.
 
 ## To Use
 
-Firtly, clone this repository into `~/.xmonad` or `~/.config/xmonad`.
+Firstly, clone this repository into `~/.xmonad` or `~/.config/xmonad`.
 
 ### Build Requirements
 - cabal (from [ghcup](https://www.haskell.org/ghcup/), or installed via your package manager -- the package is often called `cabal-install`).
