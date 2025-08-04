@@ -49,6 +49,7 @@ import XMonad.Util.NamedWindows
 import XMonad.Util.Run (runProcessWithInput, spawnPipe)
 import XMonad.Util.Time
 import XMonad.Actions.PushWindow
+import qualified Constants as C
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
@@ -175,7 +176,7 @@ startupHook = do
   spawn $ "xloadimage -onroot " ++ Conf.backgroundImage
   runAutorun
   setWMName "LG3D"
-  void $ notifySend "XMonad" "startup finished" []
+  void $ notifySend C.appName "startup finished" []
 
 restartXMonad :: X ()
 restartXMonad = do

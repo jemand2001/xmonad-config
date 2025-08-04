@@ -1,18 +1,10 @@
 module XMonad.Actions.MyNotify
-  (
-  --   notifySendN
-  -- , notifySend
-  -- , notifySendIcon
-  -- , replaceNotificationN
-  -- , replaceNotification
-  -- , replaceNotificationIcon
-    notifySend
+  ( notifySend
   , notifySendIcon
   , replaceNotification
   , replaceNotificationIcon
   , notifySendHints
   , DBusConnection (DBusConnection)
-  -- , TimeNotification (..)
   ) where
 
 import qualified XMonad.Util.ExtensibleState as XS
@@ -21,6 +13,7 @@ import qualified DBus.Notify as N
 import XMonad
 
 import XMonad.Actions.DBus
+import qualified Constants as C
 
 type Actions = [(N.Action, String)]
 
@@ -33,7 +26,7 @@ notifySendN note = do
 
 notifySend :: String -> String -> Actions -> X N.Notification
 notifySend summary body actions = notifySendN N.blankNote {
-    N.appName = "XMonad"
+    N.appName = C.appName
   , N.body = Just $ N.Text body
   , N.appImage = Just $ N.Icon "xmonad"
   , N.actions = actions
@@ -42,7 +35,7 @@ notifySend summary body actions = notifySendN N.blankNote {
 
 notifySendIcon :: String -> String -> Actions -> Maybe N.Icon -> X N.Notification
 notifySendIcon summary body actions ico = notifySendN N.blankNote {
-    N.appName = "XMonad"
+    N.appName = C.appName
   , N.body = Just $ N.Text body
   , N.appImage = ico
   , N.actions = actions
@@ -53,12 +46,12 @@ notifySendHints :: String -> String -> Actions -> [N.Hint] -> X N.Notification
 notifySendHints summary body actions hints =
   notifySendN
     N.blankNote
-      { N.appName = "XMonad",
-        N.body = Just $ N.Text body,
-        N.appImage = Just $ N.Icon "xmonad",
-        N.actions = actions,
-        N.summary = summary,
-        N.hints = hints
+      { N.appName = C.appName
+      , N.body = Just $ N.Text body
+      , N.appImage = Just $ N.Icon "xmonad"
+      , N.actions = actions
+      , N.summary = summary
+      , N.hints = hints
       }
 
 replaceNotificationN :: N.Notification -> N.Note -> X N.Notification
@@ -68,7 +61,7 @@ replaceNotificationN notif note = do
 
 replaceNotification :: N.Notification -> String -> String -> Actions -> X N.Notification
 replaceNotification notif summary body actions = replaceNotificationN notif N.blankNote {
-    N.appName = "XMonad"
+    N.appName = C.appName
   , N.body = Just $ N.Text body
   , N.appImage = Just $ N.Icon "xmonad"
   , N.actions = actions
@@ -77,7 +70,7 @@ replaceNotification notif summary body actions = replaceNotificationN notif N.bl
 
 replaceNotificationIcon :: N.Notification -> String -> String -> Actions -> Maybe N.Icon -> X N.Notification
 replaceNotificationIcon notif summary body actions ico = replaceNotificationN notif N.blankNote {
-    N.appName = "XMonad"
+    N.appName = C.appName
   , N.body = Just $ N.Text body
   , N.appImage = ico
   , N.actions = actions

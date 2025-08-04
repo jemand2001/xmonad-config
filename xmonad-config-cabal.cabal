@@ -71,6 +71,7 @@ executable xmonad-config-cabal
         XMonad.Util.Paths,
         XMonad.Util.StackSet,
         Conf,
+        Constants,
         XMonad.Actions.DBus,
         XMonad.Actions.PulseAudio,
         XMonad.Actions.Countdown,
