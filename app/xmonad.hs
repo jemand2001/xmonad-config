@@ -79,8 +79,8 @@ main = xmonad $
       }
     `removeKeys` badKeys
     `additionalKeys` [
-        ((0,                    xK_Print  ), spawn "flameshot gui")
-      , ((shiftMask,            xK_Print  ), spawn "flameshot full -c")
+        ((0,                    xK_Print  ), spawn "QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui")
+      , ((shiftMask,            xK_Print  ), spawn "QT_ENABLE_HIGHDPI_SCALING=0 flameshot full -c")
 
       , ((modKey,               xK_Return ), spawn Conf.terminal)
       , ((modKey,               xK_r      ), spawn "rofi -show drun")
