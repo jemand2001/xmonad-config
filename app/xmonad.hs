@@ -194,12 +194,13 @@ instance UrgencyHook LibNotifyUrgencyHook where
 
 switchToWS :: ManageHook
 switchToWS = composeAll [
-    className =? "firefox"     --> doShift "Browser"
-  , className =? "discord"     --> doShift "Chat"
-  , wmName    ~=? "steam"      --> doShift "Steam"
-  , className =? "Signal"      --> doShift "Chat"
-  , className =? "thunderbird" --> doShift "Chat"
-  , className <&> isPrefixOf "vscod" . map toLower --> doShift "Code"
+    className =? "firefox"                          --> doShift "Browser"
+  , className =? "discord"                          --> doShift "Chat"
+  , className =? "discord-canary"                   --> doShift "Chat"
+  , wmName   ~=? "steam"                            --> doShift "Steam"
+  , className =? "Signal"                           --> doShift "Chat"
+  , className =? "thunderbird"                      --> doShift "Chat"
+  , className <&> isPrefixOf "vscod" . map toLower  --> doShift "Code"
   ]
 
 floatIt :: ManageHook
