@@ -10,7 +10,6 @@ if you do not wish to use any of these you can set them to 'Nothing'
 -}
 module Conf where
 import Graphics.X11.Types (mod4Mask, KeyMask)
-import qualified XMonad.StackSet as W
 
 -- |the key that activates most wm shortcuts
 --

@@ -20,9 +20,7 @@ type Actions = [(N.Action, String)]
 notifySendN :: N.Note -> X N.Notification
 notifySendN note = do
   DBusConnection client <- ensureConnected
-  io $ do
-    trace "sending a notification"
-    N.notify client note
+  io $ N.notify client note
 
 notifySend :: String -> String -> Actions -> X N.Notification
 notifySend summary body actions = notifySendN N.blankNote {
