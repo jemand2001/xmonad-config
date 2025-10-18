@@ -36,6 +36,7 @@ import XMonad.Hooks.MyManageHelpers
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.OnPropertyChange
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.Minimize
@@ -50,6 +51,7 @@ import XMonad.Util.Run (runProcessWithInput, spawnPipe)
 import XMonad.Util.Time
 import XMonad.Actions.PushWindow
 import qualified Constants as C
+import Data.Monoid
 
 myLayout = layoutHints $ boringAuto $ minimize $ noBorders Full ||| tiled ||| Mirror tiled
   where
@@ -75,6 +77,7 @@ main = xmonad $
       , XMonad.startupHook = Main.startupHook
       , manageHook = composeAll [manageHook def, switchToWS, floatIt, closeSteamFriends, sinkIt]
       , logHook = unhideLogHook <+> logHook def
+      , handleEventHook = handleEventHook def <+> moveWindowEventHook
       , clickJustFocuses = False
       }
     `removeKeys` badKeys
@@ -197,7 +200,7 @@ switchToWS = composeAll [
     className =? "firefox"                          --> doShift "Browser"
   , className =? "discord"                          --> doShift "Chat"
   , className =? "discord-canary"                   --> doShift "Chat"
-  , wmName   ~=? "steam"                            --> doShift "Steam"
+  , className =? "steamwebhelper"                   --> doShift "Steam"
   , className =? "Signal"                           --> doShift "Chat"
   , className =? "thunderbird"                      --> doShift "Chat"
   , className <&> isPrefixOf "vscod" . map toLower  --> doShift "Code"
@@ -227,6 +230,13 @@ sinkIt = composeAll [
 closeSteamFriends :: ManageHook
 closeSteamFriends = composeAll [
     wmName =? "Friends List" <&&> className =? "Steam"  --> doIgnore
+  ]
+
+moveWindowEventHook :: Event -> X All
+moveWindowEventHook = composeAll [
+    onXPropertyChange "WM_NAME" (
+      className =? "KeePassXC" <&&> not . ("Locked" `isInfixOf`) <$> title --> doShift "9"
+    )
   ]
 
 minimizeInHook :: ManageHook
