@@ -1,5 +1,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-type-defaults -Wno-missing-signatures -Wno-name-shadowing #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use head" #-}
 
 module Main where
 
@@ -197,13 +199,13 @@ instance UrgencyHook LibNotifyUrgencyHook where
 
 switchToWS :: ManageHook
 switchToWS = composeAll [
-    className =? "firefox"                          --> doShift "Browser"
-  , className =? "discord"                          --> doShift "Chat"
-  , className =? "discord-canary"                   --> doShift "Chat"
-  , className =? "steamwebhelper"                   --> doShift "Steam"
-  , className =? "Signal"                           --> doShift "Chat"
-  , className =? "thunderbird"                      --> doShift "Chat"
-  , className <&> isPrefixOf "vscod" . map toLower  --> doShift "Code"
+    className =? "firefox"                          --> doShift (Conf.workspaces !! 0)
+  , className =? "discord"                          --> doShift (Conf.workspaces !! 1)
+  , className =? "discord-canary"                   --> doShift (Conf.workspaces !! 1)
+  , className =? "steam"                            --> doShift (Conf.workspaces !! 3)
+  , className =? "Signal"                           --> doShift (Conf.workspaces !! 1)
+  , className =? "thunderbird"                      --> doShift (Conf.workspaces !! 1)
+  , isPrefixOf "vscod" . map toLower <$> className  --> doShift (Conf.workspaces !! 2)
   ]
 
 floatIt :: ManageHook
@@ -235,7 +237,7 @@ closeSteamFriends = composeAll [
 moveWindowEventHook :: Event -> X All
 moveWindowEventHook = composeAll [
     onXPropertyChange "WM_NAME" (
-      className =? "KeePassXC" <&&> not . ("Locked" `isInfixOf`) <$> title --> doShift "9"
+      className =? "KeePassXC" <&&> not . ("Locked" `isInfixOf`) <$> title --> doShift (Conf.workspaces !! 8)
     )
   ]
 
