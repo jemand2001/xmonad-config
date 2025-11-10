@@ -12,7 +12,6 @@ import Control.Monad
 import qualified DBus.Notify as N
 import Data.Bits
 import Data.Char
-import Data.Functor
 import Data.List
 import qualified Data.Map as M
 import Data.Maybe
@@ -105,6 +104,8 @@ main = xmonad $
 
       , ((modKey,               xK_w      ), spawn "rofi -show windowcd")
       , ((modKey .|. shiftMask, xK_w      ), spawn "rofi -show window")
+
+      , ((modKey .|. shiftMask, xK_x      ), kill)
 
       , ((modKey,               xK_s      ), notifyWS)
       , ((modKey,               xK_t      ), notifyTime)
