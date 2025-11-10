@@ -205,7 +205,7 @@ switchToWS = composeAll [
   , className =? "discord-canary"                   --> doShift (Conf.workspaces !! 1)
   , className =? "steam"                            --> doShift (Conf.workspaces !! 3)
   , className =? "Signal"                           --> doShift (Conf.workspaces !! 1)
-  , className =? "thunderbird"                      --> doShift (Conf.workspaces !! 1)
+  , className =? "org.mozilla.Thunderbird"          --> doShift (Conf.workspaces !! 1)
   , isPrefixOf "vscod" . map toLower <$> className  --> doShift (Conf.workspaces !! 2)
   ]
 
