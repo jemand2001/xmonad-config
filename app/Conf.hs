@@ -19,9 +19,9 @@ modKey = mod4Mask
 
 -- |the path to your preferred wallpaper
 --
--- Mine is from https://wallpapersden.com/space-storm-hd-galaxy-wallpaper/
+-- Mine is https://www.nasa.gov/image-detail/amf-art002e012588/
 backgroundImage :: String
-backgroundImage = "~/Pictures/space-storm.jpg"
+backgroundImage = "~/Pictures/artemis2-milky-way.jpg"
 
 -- |a script to be run at startup, as well as whenever you press mod+b
 autorun :: String
