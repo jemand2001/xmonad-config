@@ -203,6 +203,7 @@ switchToWS = composeAll [
     className =? "firefox"                          --> doShift (Conf.workspaces !! 0)
   , className =? "discord"                          --> doShift (Conf.workspaces !! 1)
   , className =? "discord-canary"                   --> doShift (Conf.workspaces !! 1)
+  , className =? "Element"                          --> doShift (Conf.workspaces !! 1)
   , className =? "steam"                            --> doShift (Conf.workspaces !! 3)
   , className =? "Signal"                           --> doShift (Conf.workspaces !! 1)
   , className =? "org.mozilla.Thunderbird"          --> doShift (Conf.workspaces !! 1)
