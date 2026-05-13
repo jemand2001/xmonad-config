@@ -19,9 +19,9 @@ modKey = mod4Mask
 
 -- |the path to your preferred wallpaper
 --
--- Mine is https://www.nasa.gov/image-detail/amf-art002e012588/
+-- Mine is an edited version of https://eol.jsc.nasa.gov/SearchPhotos/photo.pl?mission=ART002&roll=E&frame=12588
 backgroundImage :: String
-backgroundImage = "~/Pictures/artemis2-milky-way.jpg"
+backgroundImage = "~/Pictures/starstruck-rotated.png"
 
 -- |a script to be run at startup, as well as whenever you press mod+b
 autorun :: String

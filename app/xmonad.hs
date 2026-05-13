@@ -179,7 +179,7 @@ startupHook = do
   trace "START"
   setDefaultCursor xC_arrow
   void ensureConnected
-  spawn $ "feh --bg-fill " ++ Conf.backgroundImage
+  spawn $ "feh --bg-tile " ++ Conf.backgroundImage
   runAutorun
   setWMName "LG3D"
   void $ notifySend C.appName "startup finished" []
